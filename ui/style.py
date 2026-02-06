@@ -125,37 +125,61 @@ def load_css():
         display: block;
         text-align: center;
     }
+/* =========================
+       4. THE CONTENT CARD (FIX)
+       ========================= */
 
-    /* =========================
-   4. THE CONTENT CARD
-   ========================= */
-                
-    div[data-testid="stVerticalBlock"] {
+    /* ✅ ONLY THE FIRST VERTICAL BLOCK = MAIN CARD */
+    .block-container > div[data-testid="stVerticalBlock"]:first-of-type {
         background: #fefcf8 !important;
-        border-radius: 32px !important; /* This now applies to all 4 corners */
+        border-radius: 32px !important;
         padding: clamp(2.5rem, 5vw, 4rem) !important;
         box-shadow: 0 20px 60px -10px rgba(0, 0, 0, 0.25) !important;
         max-width: 720px !important;
         width: 95% !important;
-        /* Reset margin to let the parent container's padding do the work */
-        margin: 0 auto !important; 
+        margin: 0 auto !important;
     }
-                
-        /* 🔥 Force readable text INSIDE white card */
-    div[data-testid="stVerticalBlock"] h1,
-    div[data-testid="stVerticalBlock"] h2,
-    div[data-testid="stVerticalBlock"] h3,
-    div[data-testid="stVerticalBlock"] p,
-    div[data-testid="stVerticalBlock"] label,
-    div[data-testid="stVerticalBlock"] span {
+
+    /* Text inside main card only */
+    .block-container > div[data-testid="stVerticalBlock"]:first-of-type h1,
+    .block-container > div[data-testid="stVerticalBlock"]:first-of-type h2,
+    .block-container > div[data-testid="stVerticalBlock"]:first-of-type h3,
+    .block-container > div[data-testid="stVerticalBlock"]:first-of-type p,
+    .block-container > div[data-testid="stVerticalBlock"]:first-of-type label,
+    .block-container > div[data-testid="stVerticalBlock"]:first-of-type span {
         color: #1f2937 !important;
     }
 
-
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    /* Buttons remain untouched */
+    div.stButton > button {
+        border-radius: 16px !important;
     }
+
+    @media (max-width: 768px) {
+        div.stButton > button {
+            min-width: 160px !important;
+            padding: 0.8rem 1.2rem !important;
+            font-size: 0.95rem !important;
+        }
+    }
+    
+    /* =========================
+    BUTTON AREA (OUTSIDE CARD)
+    ========================= */
+
+    .bottom-actions {
+        max-width: 720px;
+        width: 95%;
+        margin: 1.5rem auto 0 auto;
+    }
+
+    /* Make sure buttons don't inherit card styles */
+    .bottom-actions div[data-testid="stVerticalBlock"],
+    .bottom-actions div[data-testid="column"] {
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }           
 
     /* =========================
        5. MODERN WIDGETS
@@ -370,7 +394,11 @@ def load_css():
         color: white !important;
         border-color: #6d28d9 !important;
     }
+                
+  
 }
+                
+                
         
     </style>
     """, unsafe_allow_html=True)

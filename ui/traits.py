@@ -1,7 +1,9 @@
 import streamlit as st
+from ai.trait_generator import generate_traits
 
 def render_traits():
     age = st.session_state.basic_info.get("age", 0)
+    country = st.session_state.basic_info.get("country")
 
     st.markdown(
         '<div class="app-header"><h1>Know About Your Child</h1>'
@@ -9,28 +11,43 @@ def render_traits():
         unsafe_allow_html=True
     )
 
+    # Wrap the content in a custom class
+    st.markdown('<div class="main-card-container">', unsafe_allow_html=True)
+
     st.markdown(
-        '<h2 style="text-align: center; color: #3730a3; margin-bottom: 1.5rem;">Characteristics 🌟</h2>',
+        '<h2 style="text-align: center; color: #3730a3; margin-bottom: 1.5rem;">'
+        'Child Characteristics 🌟</h2>',
         unsafe_allow_html=True
     )
 
+    # -------------------------------
+    # CASE 1: AGE < 3 (AI GENERATED)
+    # -------------------------------
     if age < 3:
+        if "ai_traits" not in st.session_state:
+            with st.spinner("Understanding your child..."):
+                st.session_state.ai_traits = generate_traits(
+                    {
+                        **st.session_state.basic_info,
+                        "india_info": st.session_state.get("india_info", {})
+                    }
+                )
+
+        traits = st.session_state.ai_traits
+
         st.markdown(
-            '<p style="text-align: center; color: #6b7280; margin-bottom: 2rem;">'
-            'Your child is very young. At this age, personality is still developing. '
-            'We will base the analysis on age, development stage, and cultural insights.'
-            '</p>',
-            unsafe_allow_html=True
-        )
-        selected = []
-    else:
-        st.markdown(
-            '<p style="text-align: center; color: #6b7280; margin-bottom: 2rem;">'
-            'What makes your child unique? Select traits that best match your child.'
-            '</p>',
+            '<p style="text-align:center;color:#6b7280;">'
+            'These characteristics are development-based on Horoscope.</p>',
             unsafe_allow_html=True
         )
 
+        for t in traits:
+            st.markdown(f"- 🌱 {t}")
+
+    # -------------------------------
+    # CASE 2: AGE ≥ 3
+    # -------------------------------
+    else:
         trait_options = [
             "Shy", "Extrovert", "Introvert", "Playful", "Creative",
             "Curious", "Active", "Quiet", "Stubborn", "Sensitive",
@@ -40,29 +57,35 @@ def render_traits():
         ]
 
         selected = st.multiselect(
-            "Select Traits",
-            trait_options,
-            label_visibility="collapsed"
+            "Select traits that best describe your child",
+            trait_options
         )
 
-    st.write("")
-
-    if st.button("← BACK"):
-        if st.session_state.basic_info.get("country") == "India":
-            st.session_state.screen = "india"
-        else:
-            st.session_state.screen = "home"
-        st.rerun()
+    
+    st.markdown('</div>', unsafe_allow_html=True) # Close the custom div
 
     st.write("")
 
-    if st.button("ANALYZE ✨", type="primary"):
-        if age >= 3 and not selected:
-            st.error("Please select at least one characteristic!")
-        else:
-            st.session_state.traits = selected
-            st.session_state.screen = "result"
+    # -------------------------------
+    # NAVIGATION
+    # -------------------------------
+     # ---- BUTTONS OUTSIDE CARD ----
+    st.markdown('<div class="bottom-actions">', unsafe_allow_html=True)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        if st.button("← Back"):
+            st.session_state.screen = "india" if country == "India" else "home"
             st.rerun()
 
+    with col2:
+        if st.button("Analyze ✨", type="primary"):
+            if age >= 3 and not selected:
+                st.error("Please select at least one trait.")
+            else:
+                st.session_state.traits = traits if age < 3 else selected
+                st.session_state.screen = "result"
+                st.rerun()
 
-   
+    st.markdown('</div>', unsafe_allow_html=True)
