@@ -33,7 +33,7 @@ def render_result():
     else:
         # Result screen - everything inside white card
         st.markdown('<div class="result-emoji">🎓</div>', unsafe_allow_html=True)
-        st.markdown('<h2 style="text-align: center; color: #3730a3; margin-bottom: 2rem;">Know About Your Child</h2>', unsafe_allow_html=True)
+        st.markdown('<h2 style="text-align: center; color: #3730a3; margin-bottom: 2rem;">Understanding Your Child Better 💖</h2>', unsafe_allow_html=True)
         
         st.markdown(st.session_state.result)
         
