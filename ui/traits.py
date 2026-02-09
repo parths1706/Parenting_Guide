@@ -51,21 +51,13 @@ def render_traits():
 
         # Editable chips
         selected = st.multiselect(
-            "Suggested traits (you can add or remove)",
+            "Suggested traits (you can remove, If you Don't feel the same)",
             options=ai_traits,
             default=ai_traits
         )
 
-        # Extra traits user can add
-        extra_traits = st.multiselect(
-            "Add more traits if you feel they apply",
-            [
-                "Calm", "Alert", "Affectionate", "Observant", "Adaptive",
-                "Sensitive", "Expressive", "Independent", "Socially curious"
-            ]
-        )
 
-        final_traits = list(set(selected + extra_traits))
+        final_traits = list(set(selected))
 
     # -------------------------------
     # AGE ≥ 3
