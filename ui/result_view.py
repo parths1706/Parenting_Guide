@@ -5,7 +5,7 @@ from utils.session import reset_flow
 
 def render_result():
     # Header on purple background (OUTSIDE card)
-    st.markdown('<div class="app-header"><h1>Know About Your Child</h1><p>Personalized insights for your child\'s growth 💕</p></div>', unsafe_allow_html=True)
+    st.markdown('<div class="app-header"><h1>Know Your Child</h1><p>Personalized insights for your child\'s growth 💕</p></div>', unsafe_allow_html=True)
 
   
 

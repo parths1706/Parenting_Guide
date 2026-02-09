@@ -16,38 +16,45 @@ def generate_traits(data):
         trait_type = "personality traits"
 
     prompt = f"""
-You are a **child psychology expert** with cultural awareness.
+        You are generating **short trait labels** for a child profile.
 
-Your task:
-Generate **8–12 short bullet points** describing a child’s {trait_type}.
+        Your task:
+        Return **8–12 VERY SHORT trait words or phrases**
+        (1–3 words max each) that can be used as **editable chips/tokens** in a UI.
 
-STRICT RULES:
-- Age < 3 → DO NOT claim fixed personality
-- India + Age < 3 → Describe FUTURE tendencies only
-- Astrology is GUIDANCE, not fate
-- Use gentle, positive, parent-friendly language
-- Avoid words like “will definitely”, “guaranteed”, “fixed”
-- NO explanations, NO headings
-- Output ONLY a bullet list
+        STRICT FORMAT RULES:
+        - EACH line must be a single trait label
+        - NO sentences
+        - NO explanations
+        - NO punctuation at the end
+        - NO emojis
+        - Think like tags, not text
 
-Child Context:
-- Country: {country}
-- Age: {age}
-- Gender: {gender}
-"""
+        CONTENT RULES:
+        - Age < 3 → traits must be temperament or early tendencies
+        - Do NOT state fixed personality for Age < 3
+        - India + Age < 3 → include gentle astrology-influenced future tendencies
+        - Astrology is guidance, NOT fate
+        - Use positive, parent-friendly language
+        - Avoid absolute words (never, always, guaranteed)
+
+        Child Context:
+        - Country: {country}
+        - Age: {age}
+        - Gender: {gender}
+        """
 
     # India-specific astrology logic
     if country == "India":
-        prompt += f"""
-Birth Details (for astrological guidance only):
-- Date of Birth: {india_info.get("birth_date")}
-- Time of Birth: {india_info.get("birth_time")}
-- Zodiac Sign (if known): {india_info.get("horoscope", "Not provided")}
+         prompt += f"""
+Birth Context (for guidance only):
+- Birth Date: {india_info.get("birth_date")}
+- Birth Time: {india_info.get("birth_time")}
+- Zodiac Sign: {india_info.get("horoscope", "Unknown")}
 
-Astrology Instructions:
-- Use traditional Indian astrological interpretation lightly
-- Focus on emotional nature, learning inclination, social energy, discipline tendency
-- Frame everything as *potential that may develop with nurturing*
+Astrology Guidance:
+- Influence emotional nature, learning style, social energy
+- Frame traits as tendencies that may develop with nurturing
 """
 
     response = ask_llm(prompt)
