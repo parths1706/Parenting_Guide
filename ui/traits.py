@@ -51,7 +51,7 @@ def render_traits():
 
         # Editable chips
         selected = st.multiselect(
-            "Suggested traits (you can remove, If you Don't feel the same)",
+            "Suggested Personality Traits(you can remove, If you Don't feel the same)",
             options=ai_traits,
             default=ai_traits
         )
