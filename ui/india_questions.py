@@ -3,6 +3,7 @@ import streamlit as st
 def render_india_questions():
     # Wrapper removed for global centering
     
+    st.markdown('<div class="app-header"><h1>Know Your Child</h1><p>Personalized insights for your child\'s growth 💕</p></div>', unsafe_allow_html=True)
     
     st.markdown("<h2>Additional Information</h2>", unsafe_allow_html=True)
     st.markdown("<p>If You Believe in Horoscope please fill this...</p>", unsafe_allow_html=True)
