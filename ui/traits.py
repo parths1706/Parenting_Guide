@@ -14,10 +14,38 @@ def render_traits():
     # Wrap the content in a custom class
     st.markdown('<div class="main-card-container">', unsafe_allow_html=True)
 
+        # -------------------------------
+    # Dynamic heading & subtitle
+    # -------------------------------
+    if age < 3:
+        if country == "India":
+            title_text = "Temperament & Early Tendencies 🌱"
+            subtitle_text = (
+                "These insights are gently guided by early development patterns "
+                "and traditional horoscope influences."
+            )
+        else:
+            title_text = "Temperament & Early Tendencies 🌱"
+            subtitle_text = (
+                "These insights are based on early childhood development and temperament."
+            )
+    else:
+        title_text = "Personality Insights 🌟"
+        subtitle_text = (
+            "These traits reflect your child’s emerging personality and everyday behavior."
+        )
+
+
     st.markdown(
-        '<h2 style="text-align: center; color: #3730a3; margin-bottom: 1.5rem;">'
-        'Child Characteristics 🌟</h2>',
-        unsafe_allow_html=True
+         f'''
+    <h2 style="text-align: center; color: #3730a3; margin-bottom: 0.8rem;">
+        {title_text}
+    </h2>
+    <p style="text-align:center;color:#6b7280;margin-bottom:1.5rem;">
+        {subtitle_text}
+    </p>
+    ''',
+    unsafe_allow_html=True
     )
 
     # -------------------------------
